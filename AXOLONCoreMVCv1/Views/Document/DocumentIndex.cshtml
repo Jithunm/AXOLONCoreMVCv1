@@ -1,0 +1,106 @@
+﻿@model IEnumerable<AXOLONCoreMVCv1.Models.TblDocumentDetail>
+
+@{
+    ViewData["Title"] = "Index";
+}
+@if (@TempData["Message"] != null)
+{
+    <div class="alert alert-dismissible alert-success text-center">
+        <strong>
+            @TempData["Message"].ToString()
+        </strong>
+        <button class="btn btn-primary" onclick="this.parentElement.style.display='none'">Close</button>
+    </div>
+}
+<div class="text-center">
+    <h3>Manage Documents</h3>
+</div>
+<div>
+
+@using (Html.BeginForm("DocumentIndex","Document",FormMethod.Post))
+{
+    @Html.DisplayName("Employee ID")  
+    @Html.DropDownList("EmployeeId",  new SelectList(ViewBag.employeeData, "EmployeeId", "EmployeeId"), "-- SELECT --")
+    <input type="submit" class="btn" value="Search" name="EmployeeId">
+}
+@using(Html.BeginForm("UploadFile","Upload", FormMethod.Post, new { enctype="multipart/form-data"}))
+{
+    <div>
+        @Html.TextBox("file", "", new {  type= "file"}) <br />
+        <input type="submit" value="Upload" />
+        @ViewBag.Message
+    </div>
+}
+
+
+</div>
+&nbsp;
+&nbsp;
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                 @Html.DisplayName("Document Number")
+            </th>
+            <th>
+                 @Html.DisplayName("Document Type")
+            </th>
+            <th>
+                 @Html.DisplayName("Issue Date")
+            </th>
+            <th>
+                 @Html.DisplayName("Issued Place")
+            </th>
+            <th>
+                 @Html.DisplayName("Expiry Date")
+            </th>
+            <th>
+                 @Html.DisplayName("Employee ID")
+            </th>
+            <th>
+                 @Html.DisplayName("Attachments")
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DocumentNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DocumentType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IssueDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IssuePlace)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExpiryDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployeeId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Attachment)
+            </td>
+            <td>
+                <button class="btn btn-secondary" type="button" onclick="location.href='@Url.Action("DocumentUpdate", "Document", new {docid = item.DocumentNumber })'">
+                    Update
+                </button>
+                <button class="btn btn-danger" type="button" onclick="location.href='@Url.Action("DocumentDelete", "Document", new {docid = item.DocumentNumber })'">
+                    Delete
+                </button>
+               
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<p>
+    <a asp-action="DocumentInsert">Create New</a>
+</p>
