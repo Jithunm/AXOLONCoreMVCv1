@@ -1,4 +1,4 @@
-﻿namespace AXOLONCoreMVC.Managers
+﻿namespace AXOLONCoreMVCv1.Managers
 {
 
         public class MessageBox

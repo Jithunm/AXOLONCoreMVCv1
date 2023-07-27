@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AXOLONCoreMVCv1.Data;
+using AXOLONCoreMVCv1.Managers;
 using AXOLONCoreMVCv1.Repository;
 
 namespace AXOLONCoreMVCv1
@@ -27,6 +28,7 @@ namespace AXOLONCoreMVCv1
             services.AddControllersWithViews();
             //Dependancy injection implemented.
             services.AddDbContext<AXOLON_DBContext>();
+            services.AddTransient<MessageBox>();
             services.AddTransient<IEmployeeRepository, EmployeeRepository>();
             services.AddTransient<IDocumentRepository, DocumentRepository>();
 
