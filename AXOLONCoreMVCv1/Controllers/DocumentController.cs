@@ -1,4 +1,4 @@
-﻿using AXOLONCoreMVC.Managers;
+﻿using AXOLONCoreMVCv1.Managers;
 
 using AXOLONCoreMVCv1.Repository;
 using AXOLONCoreMVCv1.Models;
@@ -19,12 +19,15 @@ namespace AXOLONCoreMVCv1.Controllers
 
         private readonly IDocumentRepository _empRepo;
 
-        MessageBox messageObj = new MessageBox();
-        private AXOLON_DBContext _context = new AXOLON_DBContext();
+        MessageBox _messageObj;
+        private AXOLON_DBContext _context;
 
-        public DocumentController(IDocumentRepository docRepo)
+        public DocumentController(IDocumentRepository docRepo,AXOLON_DBContext context,MessageBox messageBox)
         {
             _empRepo = docRepo;
+            _context = context;
+            _messageObj = messageBox;
+
         }
         [HttpGet]
         public IActionResult DocumentIndex()
@@ -59,9 +62,6 @@ namespace AXOLONCoreMVCv1.Controllers
             {
                 if (ModelState.IsValid)
                 {
-
-
-
                     return RedirectToAction("DocumentIndex", TempData["Message"] = await _empRepo.InsertDocument(model));
                 }
                 else
@@ -73,7 +73,7 @@ namespace AXOLONCoreMVCv1.Controllers
             catch (Exception ex)
             {
 
-                return RedirectToAction("DocumentIndex", TempData["Message"] = messageObj.insertError);
+                return RedirectToAction("DocumentIndex", TempData["Message"] = _messageObj.insertError);
 
             }
 
